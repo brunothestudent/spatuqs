@@ -1,3 +1,4 @@
+import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react"
 import { LuMenuSquare } from "react-icons/lu";
@@ -49,16 +50,39 @@ const useStyles = makeStyles(() => ({
         color: '#475569',
         marginTop: '20px',
     },
-    form: {
+    form1: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        height: '300px',
-        width: '400px',
+        height: '280px',
+        width: '360px',
         backgroundColor: '#fff',
         borderRadius: '10px',
-        marginTop: '40px',
+        marginTop: '20px',
     },
+    form2: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        height: '225px',
+        width: '360px',
+        backgroundColor: '#fff',
+        borderRadius: '10px',
+        marginTop: '20px',
+    },
+    input: {
+        marginTop: '30px'
+    },
+    button1: {
+        marginTop: '30px'
+    },
+    button2: {
+        marginTop: '10px'
+    },
+    checkbox: {
+        marginTop: '10px',
+        marginBottom: '0',
+    }
   }));
 
 export const HomePage = () => {
@@ -70,20 +94,53 @@ export const HomePage = () => {
                 <LuMenuSquare className={classes.luMenuSquareStyle} />
             </div>
             <div className={classes.main}>
+
+                {/* SELECIONAR COMANDA */}
                 <div className={classes.grid}>
                     <p className={classes.titleGrid}>
                         Selecionar comanda
                     </p>
-                    <div className={classes.form} // fazer com mui
-                    > 
-                        <label>Número da comanda</label>
-                        <input type="text" />
+                    <div className={classes.form1}> 
+                        <div className={classes.input}>
+                            <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
+                        </div>
+                        <div className={classes.input}>
+                            <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
+                        </div>
+                        <div className={classes.button1}>
+                            <Button size='large' variant="contained">Ok</Button>
+                        </div>
                     </div>
                 </div>
 
+                {/* REGISTRAR PEDIDOS */}
                 <div className={classes.grid}>
                     <p className={classes.titleGrid}>Registrar pedidos</p>
+                    <div className={classes.form2}> 
+                        <div className={classes.input}>
+                            <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
+                        </div>
+                        <div className={classes.checkbox}>
+                            <FormControlLabel control={<Checkbox size="medium" />} label="Buffet livre" />
+                        </div>
+                        <div className={classes.button2}>
+                            <Button size='large' variant="contained">Ok</Button>
+                        </div>
+                    </div>
+                    <div className={classes.form2}> 
+                        <div className={classes.input}>
+                            <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
+                        </div>
+                        <div className={classes.checkbox}>
+                            <FormControlLabel control={<Checkbox size="medium" />} label="Buffet livre" />
+                        </div>
+                        <div className={classes.button2}>
+                            <Button size='large' variant="contained">Ok</Button>
+                        </div>
+                    </div>
                 </div>
+
+                {/* PEDIDOS */}
                 <div className={classes.grid}>
                     <p className={classes.titleGrid}>Pedidos</p>
                 </div>
