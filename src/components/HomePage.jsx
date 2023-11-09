@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react"
 import { LuMenuSquare } from "react-icons/lu";
@@ -50,7 +50,7 @@ const useStyles = makeStyles(() => ({
         color: '#475569',
         marginTop: '20px',
     },
-    form1: {
+    inputBox1: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -60,7 +60,7 @@ const useStyles = makeStyles(() => ({
         borderRadius: '10px',
         marginTop: '20px',
     },
-    form2: {
+    inputBox2: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -69,8 +69,27 @@ const useStyles = makeStyles(() => ({
         backgroundColor: '#fff',
         borderRadius: '10px',
         marginTop: '20px',
+        marginBottom: '30px',
+    },
+    inputBox3: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        height: '300px',
+        width: '360px',
+        backgroundColor: '#fff',
+        borderRadius: '10px',
+        marginTop: '20px',
+        marginBottom: '30px',
+        paddingTop: '20px',
     },
     input: {
+        marginTop: '30px'
+    },
+    input2: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
         marginTop: '30px'
     },
     button1: {
@@ -82,6 +101,11 @@ const useStyles = makeStyles(() => ({
     checkbox: {
         marginTop: '10px',
         marginBottom: '0',
+    },
+    select: {
+        width: '320px',
+        paddingTop: '30px',
+        height: '60px'
     }
   }));
 
@@ -100,12 +124,12 @@ export const HomePage = () => {
                     <p className={classes.titleGrid}>
                         Selecionar comanda
                     </p>
-                    <div className={classes.form1}> 
+                    <div className={classes.inputBox1}> 
                         <div className={classes.input}>
                             <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
                         </div>
                         <div className={classes.input}>
-                            <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
+                            <TextField id="outlined-password-input" label="Número da mesa" size="medium" />
                         </div>
                         <div className={classes.button1}>
                             <Button size='large' variant="contained">Ok</Button>
@@ -116,7 +140,7 @@ export const HomePage = () => {
                 {/* REGISTRAR PEDIDOS */}
                 <div className={classes.grid}>
                     <p className={classes.titleGrid}>Registrar pedidos</p>
-                    <div className={classes.form2}> 
+                    <div className={classes.inputBox2}> 
                         <div className={classes.input}>
                             <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
                         </div>
@@ -127,12 +151,31 @@ export const HomePage = () => {
                             <Button size='large' variant="contained">Ok</Button>
                         </div>
                     </div>
-                    <div className={classes.form2}> 
-                        <div className={classes.input}>
+                    <div className={classes.inputBox3}>
+                        <div>
+                            <FormControl sx={{ m: 1}}>
+                                <InputLabel id="demo-simple-select-autowidth-label">Produto</InputLabel>
+                                <Select
+                                    className={classes.select}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    // value={produto}
+                                    label="Produto"
+                                    // onChange={handleChange}
+                                >
+                                    <MenuItem>Pepsi lata</MenuItem>
+                                    <MenuItem>Agua sem gas</MenuItem>
+                                    <MenuItem>Agua com gas</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                        
+                        <div className={classes.input2}>
                             <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
+                            <TextField id="outlined-password-input" label="Número da comanda" size="small" />
                         </div>
                         <div className={classes.checkbox}>
-                            <FormControlLabel control={<Checkbox size="medium" />} label="Buffet livre" />
+                            
                         </div>
                         <div className={classes.button2}>
                             <Button size='large' variant="contained">Ok</Button>
