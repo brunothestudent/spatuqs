@@ -1,7 +1,11 @@
-import { Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button, Checkbox, Drawer, FormControl, FormControlLabel, InputLabel, List, ListItem, ListItemText, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, darken } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React from "react"
+import React, { useState } from "react"
 import { LuMenuSquare } from "react-icons/lu";
+import TableChartIcon from '@mui/icons-material/TableChart';
+import HomeIcon from '@mui/icons-material/Home';
+import { useNavigate } from "react-router-dom";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const useStyles = makeStyles(() => ({
     boxApp: {
@@ -28,12 +32,6 @@ const useStyles = makeStyles(() => ({
         height: '730px',
         alignItems: 'center',
         flexDirection: 'row',
-    },
-    luMenuSquareStyle : {
-        width: '45px',
-        height: '45px',
-        marginLeft: '20px',
-        color: '#475569',
     },
     grid: {
         textAlign: 'center',
@@ -154,26 +152,52 @@ const useStyles = makeStyles(() => ({
 
 export const HomePage = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
 
     function createData(name, calories, fat, carbs, protein) {
         return { name, calories, fat, carbs, protein };
       }
       
       const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+        createData('', 159, 6.0, 24, 4.0),
         createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
         createData('Eclair', 262, 16.0, 24, 6.0),
         createData('Cupcake', 305, 3.7, 67, 4.3),
         createData('Gingerbread', 356, 16.0, 49, 3.9),
       ];
 
+      const [drawerOpen, setDrawerOpen] = useState(false);
+
+        const toggleDrawer = () => {
+        setDrawerOpen(!drawerOpen);
+        };
+
+        const goToTable = () => {
+            navigate("/table")
+        }
 
     return(
         <div className={classes.boxApp}>
-            <div className={classes.header}>
-                <LuMenuSquare className={classes.luMenuSquareStyle} />
-                <Typography sx={{fontSize: '25px', paddingLeft: '5px', fontWeight: 'bold', color: '#475569'}}>MENU</Typography>
+            <div className={classes.header} >
+                <div>
+                <Typography onClick={toggleDrawer} sx={{alignContent: 'center', fontSize: '30px', paddingLeft: '20px', paddingRight: '20px', fontWeight: 'bold', color: '#475569', cursor: 'pointer', '&:hover': {backgroundColor: darken('#DEEDFF', 0.1)}}}>MENU</Typography>
+                </div>
             </div>
+
+            {/* MENU */}
+            <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+                <List>
+                <ListItem button sx={{paddingBottom: '20px', paddingTop: '20px'}}>
+                        <HomeIcon sx={{color: '#475569', fontSize: '35px'}} />
+                        <Typography sx={{fontSize: '25px', paddingLeft: '5px', fontWeight: 'bold', color: '#475569'}}>Pagina Inicial </Typography>
+                    </ListItem>
+                    <ListItem button sx={{paddingBottom: '20px', paddingTop: '20px'}} onClick={goToTable}>
+                        <TableChartIcon sx={{color: '#475569', fontSize: '35px'}} />
+                        <Typography sx={{fontSize: '25px', paddingLeft: '5px', fontWeight: 'bold', color: '#475569'}}>Controle de estoque </Typography>
+                    </ListItem>
+                </List>
+            </Drawer>
+
             <div className={classes.main}>
 
                 {/* SELECIONAR COMANDA */}
