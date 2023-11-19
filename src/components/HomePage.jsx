@@ -171,11 +171,11 @@ export const HomePage = () => {
     let price;
     switch (selectedProduct) {
         case 'Pepsi lata':
-        price = '6,00';
+        price = '6.00';
         break;
         // Add more cases for other products
         default:
-        price = '0,00';
+        price = '0.00';
     }
     setRows(prevRows => [...prevRows, {name: selectedProduct, qtd: quantity, price}]);
     };
@@ -184,29 +184,35 @@ export const HomePage = () => {
 
     const handleOkBuffetClick = () => {
     if (isBuffetLivreChecked) {
-        setRows(prevRows => [...prevRows, {name: 'Buffet Livre', qtd: 1, price: '27,90'}]);
+        setRows(prevRows => [...prevRows, {name: 'Buffet Livre', qtd: 1, price: '27.90'}]);
     } else {
-        setRows(prevRows => [...prevRows, {name: 'Buffet', qtd: peso, price: '18,50'}]);
+        setRows(prevRows => [...prevRows, {name: 'Buffet', qtd: peso, price: '18.50'}]);
     }
     };
 
     const handlePesoChange = (event) => setPeso(event.target.value);
 
+    let totalPrice = 0;
+
     useEffect(() => {
         if (numeroComanda === "1" && numeroMesa === "1") {
             setRows([
-                {name: 'Pepsi lata', qtd: 1, price: '6,00'},
-                {name: 'Buffet livre', qtd: 2, price: '27,90'},
-                {name: 'Água mineral 600mL', qtd: 1, price: '5,00'},
+                {name: 'Pepsi lata', qtd: 1, price: '6.00'},
+                {name: 'Buffet livre', qtd: 2, price: '27.90'},
+                {name: 'Água mineral 600mL', qtd: 1, price: '5.00'},
             ]);
         } else if (numeroComanda === "2" && numeroMesa === "2") {
             setRows([
-                {name: 'Suco de Laranja', qtd: 2, price: '6,00'},
-                {name: 'Buffet livre', qtd: 4, price: '27,90'},
-                {name: 'Cerveja Polar 473mL', qtd: 1, price: '8,00'},
+                {name: 'Suco de Laranja', qtd: 2, price: '6.00'},
+                {name: 'Buffet livre', qtd: 4, price: '27.90'},
+                {name: 'Cerveja Polar 473mL', qtd: 1, price: '8.00'},
             ]);
         }
-    }, [numeroComanda, numeroMesa, peso]);
+    }, [numeroComanda, numeroMesa, peso, totalPrice]);
+
+    rows.forEach(row => {
+        totalPrice += Number(row.price);
+    });
 
     const handleOkClick = () => {
         setNumeroComanda(tempNumeroComanda);
@@ -222,6 +228,8 @@ export const HomePage = () => {
         const goToTable = () => {
             navigate("/table")
         }
+
+
 
     return(
         <div className={classes.boxApp}>
@@ -353,7 +361,7 @@ export const HomePage = () => {
                     </TableContainer>
 
                     <div className={classes.valorTotal}>
-                        <Typography sx={{fontSize: '20px', paddingLeft: '10px'}}>Valor total:</Typography>
+                        <Typography sx={{fontSize: '20px', paddingLeft: '10px'}}>Valor total:{totalPrice}</Typography>
                     </div>
                 </div>
                 
