@@ -1,6 +1,6 @@
 import { Button, Checkbox, Drawer, FormControl, FormControlLabel, InputLabel, List, ListItem, ListItemText, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, darken } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { LuMenuSquare } from "react-icons/lu";
 import TableChartIcon from '@mui/icons-material/TableChart';
 import HomeIcon from '@mui/icons-material/Home';
@@ -154,17 +154,64 @@ export const HomePage = () => {
     const classes = useStyles();
     const navigate = useNavigate();
 
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
-      }
-      
-      const rows = [
-        createData('', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-      ];
+    const [numeroComanda, setNumeroComanda] = useState('');
+    const [numeroMesa, setNumeroMesa] = useState('');
+    const [tempNumeroComanda, setTempNumeroComanda] = useState('');
+    const [tempNumeroMesa, setTempNumeroMesa] = useState('');
+    const [rows, setRows] = useState([]);
+    const [peso, setPeso] = useState('');
+    const [isBuffetLivreChecked, setIsBuffetLivreChecked] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState('');
+    const [quantity, setQuantity] = useState('');
+
+    const handleProductChange = (event) => setSelectedProduct(event.target.value);
+    const handleQuantityChange = (event) => setQuantity(event.target.value);
+
+    const handleOkProductClick = () => {
+    let price;
+    switch (selectedProduct) {
+        case 'Pepsi lata':
+        price = '6,00';
+        break;
+        // Add more cases for other products
+        default:
+        price = '0,00';
+    }
+    setRows(prevRows => [...prevRows, {name: selectedProduct, qtd: quantity, price}]);
+    };
+
+    const handleBuffetLivreChange = (event) => setIsBuffetLivreChecked(event.target.checked);
+
+    const handleOkBuffetClick = () => {
+    if (isBuffetLivreChecked) {
+        setRows(prevRows => [...prevRows, {name: 'Buffet Livre', qtd: 1, price: '27,90'}]);
+    } else {
+        setRows(prevRows => [...prevRows, {name: 'Buffet', qtd: peso, price: '18,50'}]);
+    }
+    };
+
+    const handlePesoChange = (event) => setPeso(event.target.value);
+
+    useEffect(() => {
+        if (numeroComanda === "1" && numeroMesa === "1") {
+            setRows([
+                {name: 'Pepsi lata', qtd: 1, price: '6,00'},
+                {name: 'Buffet livre', qtd: 2, price: '27,90'},
+                {name: 'Água mineral 600mL', qtd: 1, price: '5,00'},
+            ]);
+        } else if (numeroComanda === "2" && numeroMesa === "2") {
+            setRows([
+                {name: 'Suco de Laranja', qtd: 2, price: '6,00'},
+                {name: 'Buffet livre', qtd: 4, price: '27,90'},
+                {name: 'Cerveja Polar 473mL', qtd: 1, price: '8,00'},
+            ]);
+        }
+    }, [numeroComanda, numeroMesa, peso]);
+
+    const handleOkClick = () => {
+        setNumeroComanda(tempNumeroComanda);
+        setNumeroMesa(tempNumeroMesa);
+      };
 
       const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -207,13 +254,13 @@ export const HomePage = () => {
                     </p>
                     <div className={classes.inputBox1}> 
                         <div className={classes.input}>
-                            <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
+                            <TextField id="outlined-password-input" label="Número da comanda" size="medium"  value={tempNumeroComanda} onChange={(event) => setTempNumeroComanda(event.target.value)} />
                         </div>
                         <div className={classes.input}>
-                            <TextField id="outlined-password-input" label="Número da mesa" size="medium" />
+                            <TextField id="outlined-password-input" label="Número da mesa" size="medium" value={tempNumeroMesa} onChange={(event) => setTempNumeroMesa(event.target.value)} />
                         </div>
                         <div className={classes.button1}>
-                            <Button size='large' variant="contained">Ok</Button>
+                            <Button onClick={handleOkClick} size='large' variant="contained">Ok</Button>
                         </div>
                     </div>
                 </div>
@@ -227,13 +274,13 @@ export const HomePage = () => {
                     <p className={classes.titleGrid}>Registrar pedidos</p>
                     <div className={classes.inputBox2}> 
                         <div className={classes.input}>
-                            <TextField id="outlined-password-input" label="Número da comanda" size="medium" />
+                            <TextField id="outlined-password-input" label="Peso(g)" size="medium" value={peso} onChange={handlePesoChange} />
                         </div>
                         <div className={classes.checkbox}>
-                            <FormControlLabel control={<Checkbox size="medium" />} label="Buffet livre" />
+                            <FormControlLabel control={<Checkbox size="medium" checked={isBuffetLivreChecked} onChange={handleBuffetLivreChange}/>} label="Buffet livre" />
                         </div>
                         <div className={classes.button2}>
-                            <Button size='large' variant="contained">Ok</Button>
+                            <Button size='large' variant="contained" onClick={handleOkBuffetClick}>Ok</Button>
                         </div>
                     </div>
                     <div className={classes.inputBox3}>
@@ -244,9 +291,9 @@ export const HomePage = () => {
                                     className={classes.select}
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value=''
+                                    value={selectedProduct}
                                     label="Produto"
-                                    // onChange={handleChange}
+                                    onChange={handleProductChange}
                                 >
                                     <MenuItem value='Pepsi lata'>Pepsi lata</MenuItem>
                                     <MenuItem>Agua sem gas</MenuItem>
@@ -257,17 +304,17 @@ export const HomePage = () => {
                         
                         <div className={classes.input2}>
                             <div>
-                                <Typography className={classes.valorUnitario}>Valor unitário:</Typography>
+                                <Typography className={classes.valorUnitario}>Valor unitário: {selectedProduct === 'Pepsi lata' ? '6,00' : '0,00'}</Typography>
                             </div>
                             <div className={classes.qtd}>
-                            <TextField label="Qtd" size="medium"></TextField>
+                            <TextField label="Qtd" size="medium" value={quantity} onChange={handleQuantityChange}></TextField>
                             </div>
                         </div>
                         <div>
-                                <Typography className={classes.valorUnitario}>Subtotal:</Typography>
+                                <Typography className={classes.valorUnitario}>Subtotal: {selectedProduct === 'Pepsi lata' ? (quantity * 6).toFixed(2) : '0,00'}</Typography>
                             </div>
                         <div className={classes.button3}>
-                            <Button size='large' variant="contained">Ok</Button>
+                            <Button size='large' variant="contained" onClick={handleOkProductClick}>Ok</Button>
                         </div>
                     </div>
                 </div>
@@ -297,8 +344,8 @@ export const HomePage = () => {
                                 <TableCell component="th" scope="row">
                                     {row.name}
                                 </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
+                                <TableCell align="right">{row.qtd}</TableCell>
+                                <TableCell align="right">{row.price}</TableCell>
                                 </TableRow>
                             ))}
                             </TableBody>
